@@ -2,8 +2,11 @@ package com.error404.project6;
 
 import org.junit.jupiter.api.*;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -80,15 +83,24 @@ class BankTest {
     }
     /* END Get All Accounts Test Suite */
 
-    /* UNEXPECTED END OF TESTS */
-
     /* BEGIN Add Customer Test Suite */
     @Test
     @DisplayName("Add Customer Test - Method Execution")
     void testAddCustomer() {
-        testBank.addCustomer("Doe", "John");
-        assertEquals(testBank.getCustomer("Doe", "John"), testBank.getCustomer("Does", "John"), "Customer not found. " +
-                "Add operation failed.");
+        String firstName = "John";
+        String lastName = "Doe";
+        testBank.addCustomer(lastName, firstName);
+        assertTrue(checkList(lastName, firstName), "Customer not found. Add operation failed.");
+    }
+    private boolean checkList(String lastName, String firstName) {
+        List<String> name = Arrays.asList(lastName, firstName);
+        try {
+            if (testBank.getCustomer(lastName, firstName).containsAll(name)) return true;
+        } catch (NullPointerException e) {
+            System.out.println("Customer list is empty.");
+            return false;
+        }
+        return false;
     }
     /* END Add Customer Test Suite */
 
