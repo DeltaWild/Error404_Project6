@@ -5,8 +5,7 @@ import org.junit.jupiter.api.*;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class BankTest {
     private Bank testBank;
@@ -72,13 +71,16 @@ class BankTest {
         for (Customer c : customers) {
             allAccts.add(getCustAcct(c));
         }
-        assertEquals(0, allAccts.first().compareTo(getCustAcct(c1)), "FIRST ACCT TEST: Account ID does not match " +
-                "expected.");
-        /* UNEXPECTED END OF TESTS */
-        assertEquals(1, allAccts.last().compareTo(getCustAcct(c2)), "SECOND ACCT TEST: Account ID does not match " +
-                "expected.");
+        assertAll("Returns account ID in order (first, last) with two provided.",
+                () -> assertEquals(0, allAccts.first().compareTo(getCustAcct(c1)), "FIRST ACCT TEST: " +
+                        "Account ID does not match expected."),
+                () -> assertEquals(0, allAccts.last().compareTo(getCustAcct(c2)), "SECOND ACCT TEST: " +
+                        "Account ID does not match expected.")
+        );
     }
     /* END Get All Accounts Test Suite */
+
+    /* UNEXPECTED END OF TESTS */
 
     /* BEGIN Add Customer Test Suite */
     @Test
