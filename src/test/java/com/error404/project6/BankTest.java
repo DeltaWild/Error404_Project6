@@ -4,11 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BankTest {
     private Bank testBank;
@@ -53,9 +52,32 @@ class BankTest {
     }
     /* END Set Insufficient Funds Penalty Tests */
 
+    /* BEGIN Get All Accounts Test Suite */
     @Test
     void testGetAllAccounts() {
+        /* Mock customer data */
+        SortedSet<Customer> customers = new TreeSet<>();
+        Customer c1 = new Customer(testBank, "Doe", "John");
+        Customer c2 = new Customer(testBank, "Smith", "Jane");
+        customers.add(c1);
+        customers.add(c2);
+
+        /* Test Begins */
+        SortedSet<Account> allAccts = new TreeSet<>();
+
+        for (Customer c : customers) {
+            allAccts.add(getCustAcct(c));
+        }
+        assertEquals("1", getCustAcct(c1).getAccountId(), "Account ID does not match expected.");
+        assertEquals("2", getCustAcct(c2).getAccountId(), "Account ID does not match expected.");
     }
+    private Account getCustAcct(Customer c) {
+        Account c1Savings = new SavingsAccount(c, 150.00, "John's Account");
+        Account c2Savings = new SavingsAccount(c, 400.00, "Jame's Account");
+        if (c.getLastName() == "Doe") return c1Savings;
+        else return c2Savings;
+    }
+    /* END Get All Accounts Test Suite */
 
     @Test
     void testAddCustomer() {
