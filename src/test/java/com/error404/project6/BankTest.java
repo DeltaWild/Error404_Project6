@@ -118,7 +118,7 @@ class BankTest {
     @Test
     @DisplayName("Get Customer By Name - Method Execution")
     void testGetCustomerByName() {
-
+        assertNotNull(testBank.getCustomer("Doe", "John"), "Invalid return of NULL.");
     }
     /* END Get Customer By Name Test Suite */
 
@@ -126,6 +126,7 @@ class BankTest {
     @Test
     @DisplayName("Get Customer's Accounts - Method Execution")
     void getCustomersAccounts() {
+        assertNotNull(testBank.getCustomersAccounts("1"), "Invalid return of NULL.");
     }
     /* END Get Customer's Accounts Test Suite */
 }
