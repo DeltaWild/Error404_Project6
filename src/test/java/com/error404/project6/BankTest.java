@@ -2,12 +2,16 @@ package com.error404.project6;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class BankTest {
@@ -16,12 +20,16 @@ class BankTest {
     @Mock private Customer c2Mock;
     @Mock private SavingsAccount c1SavingsMock;
     @Mock private SavingsAccount c2SavingsMock;
+
+    @Captor private ArgumentCaptor<String> captor;
     
     private Bank testBank;
 
     @BeforeEach
     void setUp(TestInfo testInfo) {
         testBank = new Bank("Test Bank");
+        when(c1Mock.getCustomerId())
+                .thenReturn("1");
     }
 
     /* BEGIN Set Insufficient Funds Penalty Test Suite */
@@ -57,7 +65,7 @@ class BankTest {
         assert(insufficientFundsPenalty > 0) : insufficientFundsPenalty + " is not valid. insufficientFundsPenalty " +
                 "must be greater than 0.";
     }
-    /* END Set Insufficient Funds Penalty Tests */
+    /* END Set Insufficient Funds Penalty Test Suite */
 
     /* BEGIN Get All Accounts Test Suite */
     @Test
@@ -71,7 +79,7 @@ class BankTest {
     @Test
     @DisplayName("Add Customer Test - Method Execution")
     void testAddCustomer() {
-        assertEquals(1, testBank.addCustomer("Doe", "John"));
+        assertEquals("1", testBank.addCustomer("Doe", "John"));
 
     }
     /* END Add Customer Test Suite */
@@ -102,7 +110,7 @@ class BankTest {
     @Test
     @DisplayName("Get Customer By ID Test - Method Execution")
     void testGetCustomerByID() {
-
+        assertNotNull(testBank.getCustomer("1"), "Invalid return of NULL.");
     }
     /* END Get Customer By ID Test Suite */
 
@@ -110,6 +118,7 @@ class BankTest {
     @Test
     @DisplayName("Get Customer By Name - Method Execution")
     void testGetCustomerByName() {
+
     }
     /* END Get Customer By Name Test Suite */
 
