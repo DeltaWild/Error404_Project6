@@ -1,6 +1,10 @@
 package com.error404.project6;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +13,16 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class BankTest {
+
+    @Mock private Customer c1Mock;
+    @Mock private Customer c2Mock;
+    @Mock private SavingsAccount c1SavingsMock;
+    @Mock private SavingsAccount c2SavingsMock;
+    
     private Bank testBank;
 
     @BeforeEach
@@ -61,23 +73,21 @@ class BankTest {
     @Test
     @DisplayName("Get All Accounts Test - Method Execution")
     void testGetAllAccounts() {
-        /* Mock customer data */
+        // Given
         SortedSet<Customer> customers = new TreeSet<>();
-        Customer c1 = new Customer(testBank, "Doe", "John");
-        Customer c2 = new Customer(testBank, "Smith", "Jane");
-        customers.add(c1);
-        customers.add(c2);
-
-        /* Test Begins */
+        customers.add(c1Mock);
+        customers.add(c2Mock);
         SortedSet<Account> allAccts = new TreeSet<>();
-
+        // When
         for (Customer c : customers) {
-            allAccts.add(getCustAcct(c));
+            SortedSet<Account> custAccts = c.getCustomerAccounts();
+            allAccts.addAll(custAccts);
         }
+        // Then
         assertAll("Returns account ID in order (first, last) with two provided.",
-                () -> assertEquals(0, allAccts.first().compareTo(getCustAcct(c1)), "FIRST ACCT TEST: " +
+                () -> assertEquals(1, c1SavingsMock.getAccountId(), "FIRST ACCT TEST: " +
                         "Account ID does not match expected."),
-                () -> assertEquals(0, allAccts.last().compareTo(getCustAcct(c2)), "SECOND ACCT TEST: " +
+                () -> assertEquals(2, c2SavingsMock.getAccountId(), "SECOND ACCT TEST: " +
                         "Account ID does not match expected.")
         );
     }
@@ -127,11 +137,5 @@ class BankTest {
     void last(TestInfo testInfo) {
         String testingThis = testInfo.getTestMethod().get().getName();
         System.out.println(testingThis);
-    }
-    private Account getCustAcct(Customer c) {
-        Account c1Savings = new SavingsAccount(c, 150.00, "John's Account");
-        Account c2Savings = new SavingsAccount(c, 400.00, "Jame's Account");
-        if (c.getLastName() == "Doe") return c1Savings;
-        else return c2Savings;
     }
 }
