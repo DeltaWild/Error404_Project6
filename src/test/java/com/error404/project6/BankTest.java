@@ -20,8 +20,6 @@ class BankTest {
     @BeforeEach
     void setUp() {
         testBank = new Bank("Test Bank");
-        when(c1Mock.getCustomerId())
-                .thenReturn("1");
     }
 
     /* BEGIN Set Insufficient Funds Penalty Test Suite */

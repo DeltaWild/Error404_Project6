@@ -13,29 +13,44 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccountTest {
 
     @Mock private Customer c1Mock;
-    @Mock private Account a1Mock;
 
-    private Bank testBank; // possibly unneeded, will determine
+    private Account testAcctZeroBal;
 
     @BeforeEach
-    void setUp() { // possibly unneeded, will determine
-        testBank = new Bank("Test Bank");
+    void setUp() {
+        testAcctZeroBal = new SavingsAccount(c1Mock, 0.00, "Test Account");
     }
 
     /* BEGIN Deposit Test Suite */
     @Test
     @DisplayName("Deposit Test - Negative Case")
     void testDeposit_NegativeCase() {
+        final double depAmt = -10.00;
+
+        assertTrue(depAmt > 0, depAmt + " is an invalid deposit. Deposits must be positive.");
     }
 
     @Test
     @DisplayName("Deposit Test - Zero Case")
     void testDeposit_ZeroCase() {
+        final double depAmt = 0.00;
+
+        assertTrue(depAmt > 0, depAmt + " is an invalid deposit. Deposits must be positive.");
     }
 
     @Test
     @DisplayName("Deposit Test - Positive Case")
     void testDeposit_PositiveCase() {
+        final double initBal = 0.00;
+        final double depAmt = 10.00;
+        final double finBal = initBal + depAmt;
+
+        testAcctZeroBal.deposit(depAmt);
+
+        final double newBal = testAcctZeroBal.getBalance();
+
+        assertEquals(finBal, newBal,
+                "Balance should be " + finBal + " but was " + newBal + ".");
     }
     /* END Deposit Test Suite */
 
@@ -87,6 +102,7 @@ class AccountTest {
     @Test
     @DisplayName("Get Transactions Test - Method Execution")
     void testGetTransactions() {
+        assertNotNull(testAcctZeroBal.getTransactions(), "Invalid return of NULL.");
     }
     /* END Get Transactions Test Suite */
 
@@ -94,6 +110,7 @@ class AccountTest {
     @Test
     @DisplayName("Get Transaction - Method Execution, Transaction Exists")
     void testGetTransaction_TransactionExists() {
+        assertNotNull(testAcctZeroBal.getTransaction(1), "Invalid return of NULL.");
     }
 
     @Test
@@ -101,7 +118,7 @@ class AccountTest {
     void testGetTransaction_NoSuchTransaction() {
         assertThrows(
           IllegalArgumentException.class,
-                () -> a1Mock.getTransaction(1),
+                () -> testAcctZeroBal.getTransaction(1),
                 "No error thrown - should throw IllegalArgumentException."
         );
     }
