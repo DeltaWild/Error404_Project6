@@ -2,31 +2,23 @@ package com.error404.project6;
 
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class BankTest {
 
     @Mock private Customer c1Mock;
-    @Mock private Customer c2Mock;
-    @Mock private SavingsAccount c1SavingsMock;
-    @Mock private SavingsAccount c2SavingsMock;
-
-    @Captor private ArgumentCaptor<String> captor;
     
     private Bank testBank;
 
     @BeforeEach
-    void setUp(TestInfo testInfo) {
+    void setUp() {
         testBank = new Bank("Test Bank");
         when(c1Mock.getCustomerId())
                 .thenReturn("1");
