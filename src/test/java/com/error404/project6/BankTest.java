@@ -3,13 +3,11 @@ package com.error404.project6;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class BankTest {
@@ -24,11 +22,6 @@ class BankTest {
     @BeforeEach
     void setUp(TestInfo testInfo) {
         testBank = new Bank("Test Bank");
-
-        if (testInfo.getTestMethod().isPresent()) {
-            String testingThis = testInfo.getTestMethod().get().getName();
-            System.out.println(testingThis);
-        }
     }
 
     /* BEGIN Set Insufficient Funds Penalty Test Suite */
@@ -71,7 +64,6 @@ class BankTest {
     @DisplayName("Get All Accounts Test - Method Execution")
     void testGetAllAccounts() {
             assertNotNull(testBank.getAllAccounts(), "No accounts retrieved!");
-        );
     }
     /* END Get All Accounts Test Suite */
 
@@ -86,6 +78,7 @@ class BankTest {
 
     /* BEGIN Remove Customer Test Suite */
     @Test
+    @DisplayName("Remove Customer Test - Method Execution")
     void testRemoveCustomer() {
         // Given
         Map<String, Customer> custTestMap = new HashMap<>();
@@ -97,24 +90,33 @@ class BankTest {
     }
     /* END Remove Customer Test Suite */
 
+    /* BEGIN Get All Customers Test Suite */
     @Test
+    @DisplayName("Get All Customers Test - Method Execution")
     void testGetAllCustomers() {
+        assertNotNull(testBank.getAllCustomers(), "No customers retrieved!");
     }
+    /* END Get All Customers Test Suite */
 
+    /* BEGIN Get Customer By ID Test Suite */
     @Test
+    @DisplayName("Get Customer By ID Test - Method Execution")
     void testGetCustomerByID() {
-    }
 
+    }
+    /* END Get Customer By ID Test Suite */
+
+    /* BEGIN Get Customer By Name Test Suite */
     @Test
+    @DisplayName("Get Customer By Name - Method Execution")
     void testGetCustomerByName() {
     }
+    /* END Get Customer By Name Test Suite */
 
+    /* BEGIN Get Customer's Accounts Test Suite */
     @Test
+    @DisplayName("Get Customer's Accounts - Method Execution")
     void getCustomersAccounts() {
     }
-    /*@AfterEach
-    void last(TestInfo testInfo) {
-        String testingThis = testInfo.getTestMethod().get().getName();
-        System.out.println(testingThis);
-    }*/
+    /* END Get Customer's Accounts Test Suite */
 }
