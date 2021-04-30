@@ -14,11 +14,12 @@ class AccountTest {
 
     @Mock private Customer c1Mock;
 
-    private Account testAcctZeroBal;
+    private Account testAcctZeroBal, testAcctPosBal;
 
     @BeforeEach
     void setUp() {
         testAcctZeroBal = new SavingsAccount(c1Mock, 0.00, "Test Account");
+        testAcctPosBal = new SavingsAccount(c1Mock, 100.00, "Test Account Positive Balance");
     }
 
     /* BEGIN Deposit Test Suite */
@@ -27,7 +28,7 @@ class AccountTest {
     void testDeposit_NegativeCase() {
         final double depAmt = -10.00;
 
-        assertTrue(depAmt > 0, depAmt + " is an invalid deposit. Deposits must be positive.");
+        assertTrue(depAmt > 0, depAmt + " is an invalid deposit. Deposits must be greater than zero.");
     }
 
     @Test
@@ -35,7 +36,7 @@ class AccountTest {
     void testDeposit_ZeroCase() {
         final double depAmt = 0.00;
 
-        assertTrue(depAmt > 0, depAmt + " is an invalid deposit. Deposits must be positive.");
+        assertTrue(depAmt > 0, depAmt + " is an invalid deposit. Deposits must be greater than zero.");
     }
 
     @Test
@@ -58,21 +59,44 @@ class AccountTest {
     @Test
     @DisplayName("Withdraw Test - Negative Case")
     void testWithdraw_NegativeCase() {
+        final double withAmt = -10.00;
+
+        assertTrue(withAmt > 0, withAmt + " is an invalid withdrawal: withdrawal must be greater than zero.");
+
     }
 
     @Test
     @DisplayName("Withdraw Test - Zero Case")
     void testWithdraw_ZeroCase() {
+        final double withAmt = 0.00;
+
+        assertTrue(withAmt > 0, withAmt + " is an invalid withdrawal: withdrawal must be greater than zero.");
     }
 
     @Test
     @DisplayName("Withdraw Test - Positive Case, Insufficient Funds")
     void testWithdraw_PositiveCase_InsufficientFunds() {
+        final double initBal = 100.00;
+        final double withAmt = 110.00;
+        final double finBal = initBal - withAmt;
+
+        assertTrue(finBal > 0, withAmt + " is an invalid withdrawal: withdrawal must be less than balance.");
+
     }
 
     @Test
     @DisplayName("Withdraw Test - Positive Case, Sufficient Funds")
     void testWithdraw_PositiveCase_SufficientFunds() {
+        final double initBal = 100.00;
+        final double withAmt = 10.00;
+        final double finBal = initBal - withAmt;
+
+        testAcctPosBal.withdraw(withAmt);
+
+        final double newBal = testAcctPosBal.getBalance();
+
+        assertEquals(finBal, newBal,
+                "Balance should be " + finBal + " but was " + newBal + ".");
     }
     /* END Withdraw Test Suite */
 
