@@ -26,7 +26,7 @@ class BankTest {
 
     /* BEGIN Set Insufficient Funds Penalty Test Suite */
     @Test
-               @DisplayName("Set Insufficient Funds Penalty Test - Negative Case")
+    @DisplayName("Set Insufficient Funds Penalty Test - Negative Case")
     void testSetInsufficientFundsPenalty_NegativeCase() {
         double newIFP = -20.00; // Negative value passed to method
         double insufficientFundsPenalty = 10.00;  // Original value in Bank.java
