@@ -6,11 +6,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.function.Predicate;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,12 +22,13 @@ class BankTest {
     private Bank testBank;
 
     @BeforeEach
-    void setUp() {
+    void setUp(TestInfo testInfo) {
         testBank = new Bank("Test Bank");
-    }
-    void first(TestInfo testInfo) {
-        String testingThis = testInfo.getTestMethod().get().getName();
-        System.out.println(testingThis);
+
+        if (testInfo.getTestMethod().isPresent()) {
+            String testingThis = testInfo.getTestMethod().get().getName();
+            System.out.println(testingThis);
+        }
     }
 
     /* BEGIN Set Insufficient Funds Penalty Test Suite */
@@ -73,22 +70,7 @@ class BankTest {
     @Test
     @DisplayName("Get All Accounts Test - Method Execution")
     void testGetAllAccounts() {
-        // Given
-        SortedSet<Customer> customers = new TreeSet<>();
-        customers.add(c1Mock);
-        customers.add(c2Mock);
-        SortedSet<Account> allAccts = new TreeSet<>();
-        // When
-        for (Customer c : customers) {
-            SortedSet<Account> custAccts = c.getCustomerAccounts();
-            allAccts.addAll(custAccts);
-        }
-        // Then
-        assertAll("Returns account ID in order (first, last) with two provided.",
-                () -> assertEquals(1, c1SavingsMock.getAccountId(), "FIRST ACCT TEST: " +
-                        "Account ID does not match expected."),
-                () -> assertEquals(2, c2SavingsMock.getAccountId(), "SECOND ACCT TEST: " +
-                        "Account ID does not match expected.")
+            assertNotNull(testBank.getAllAccounts(), "No accounts retrieved!");
         );
     }
     /* END Get All Accounts Test Suite */
@@ -105,7 +87,13 @@ class BankTest {
     /* BEGIN Remove Customer Test Suite */
     @Test
     void testRemoveCustomer() {
-
+        // Given
+        Map<String, Customer> custTestMap = new HashMap<>();
+        custTestMap.put("1", c1Mock);
+        // When
+        testBank.removeCustomer("1");
+        // Then
+        assertEquals(0, custTestMap.size(), "Test Map should be empty. Customer not removed.");
     }
     /* END Remove Customer Test Suite */
 
@@ -124,9 +112,9 @@ class BankTest {
     @Test
     void getCustomersAccounts() {
     }
-    @AfterEach
+    /*@AfterEach
     void last(TestInfo testInfo) {
         String testingThis = testInfo.getTestMethod().get().getName();
         System.out.println(testingThis);
-    }
+    }*/
 }
