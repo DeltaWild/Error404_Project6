@@ -97,26 +97,17 @@ class BankTest {
     @Test
     @DisplayName("Add Customer Test - Method Execution")
     void testAddCustomer() {
-        String firstName = "John";
-        String lastName = "Doe";
-        testBank.addCustomer(lastName, firstName);
-        assertTrue(checkList(lastName, firstName), "Customer not found. Add operation failed.");
-    }
-    private boolean checkList(String lastName, String firstName) {
-        List<String> name = Arrays.asList(lastName, firstName);
-        try {
-            if (testBank.getCustomer(lastName, firstName).containsAll(name)) return true;
-        } catch (NullPointerException e) {
-            System.out.println("Customer list is empty.");
-            return false;
-        }
-        return false;
+        assertEquals(1, testBank.addCustomer("Doe", "John"));
+
     }
     /* END Add Customer Test Suite */
 
+    /* BEGIN Remove Customer Test Suite */
     @Test
     void testRemoveCustomer() {
+
     }
+    /* END Remove Customer Test Suite */
 
     @Test
     void testGetAllCustomers() {
