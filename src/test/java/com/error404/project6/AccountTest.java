@@ -48,10 +48,8 @@ class AccountTest {
 
         testAcctZeroBal.deposit(depAmt);
 
-        final double newBal = testAcctZeroBal.getBalance();
-
-        assertEquals(finBal, newBal,
-                "Balance should be " + finBal + " but was " + newBal + ".");
+        assertEquals(finBal, testAcctZeroBal.getBalance(),
+                "Balance should be " + finBal + " but was " + testAcctZeroBal.getBalance() + ".");
     }
     /* END Deposit Test Suite */
 
@@ -62,7 +60,6 @@ class AccountTest {
         final double withAmt = -10.00;
 
         assertTrue(withAmt > 0, withAmt + " is an invalid withdrawal: withdrawal must be greater than zero.");
-
     }
 
     @Test
@@ -78,10 +75,17 @@ class AccountTest {
     void testWithdraw_PositiveCase_InsufficientFunds() {
         final double initBal = 100.00;
         final double withAmt = 110.00;
-        final double finBal = initBal - withAmt;
+        double finBal = initBal - withAmt;
 
-        assertTrue(finBal > 0, withAmt + " is an invalid withdrawal: withdrawal must be less than balance.");
+        testAcctPosBal.withdraw(withAmt);
+        final double ifp = 10.00;
+        if (withAmt > initBal) {
+            finBal -= ifp;
+            testAcctPosBal.balance -= ifp;
+        }
 
+        assertEquals(finBal, testAcctPosBal.getBalance(),
+                "Balance should be " + finBal + " but was " + testAcctPosBal.getBalance() + ".");
     }
 
     @Test
@@ -93,34 +97,10 @@ class AccountTest {
 
         testAcctPosBal.withdraw(withAmt);
 
-        final double newBal = testAcctPosBal.getBalance();
-
-        assertEquals(finBal, newBal,
-                "Balance should be " + finBal + " but was " + newBal + ".");
+        assertEquals(finBal, testAcctPosBal.getBalance(),
+                "Balance should be " + finBal + " but was " + testAcctPosBal.getBalance() + ".");
     }
     /* END Withdraw Test Suite */
-
-    /* BEGIN Transfer Test Suite */
-    @Test
-    @DisplayName("Transfer Test - Negative Case")
-    void testTransfer_NegativeCase() {
-    }
-
-    @Test
-    @DisplayName("Transfer Test - Zero Case")
-    void testTransfer_ZeroCase() {
-    }
-
-    @Test
-    @DisplayName("Transfer Test - Positive Case, Insufficient Funds")
-    void testTransfer_PositiveCase_InsufficientFunds() {
-    }
-
-    @Test
-    @DisplayName("Transfer Test - Positive Case, Sufficient Funds")
-    void testTransfer_PositiveCase_SufficientFunds() {
-    }
-    /* END Transfer Test Suite */
 
     /* BEGIN Get Transactions Test Suite */
     @Test

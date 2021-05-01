@@ -10,12 +10,15 @@
 * getAccountCreationDate does not warrant testing. Implementation is partially existing, simple, and unlikely to 
   cause error.
 
-##### The following methods DO require testing:
+##### The following methods have been tested:
 * deposit()
 * withdraw()
-* transfer()
 * getTransaction()
+* getTransactions()
 
-##### The following methods are under review:
+##### The following methods cannot be tested:
 * Account() constructor - CASE: Negative initialBalance passed
-* getTransactions() - CASE: List is empty, what is return value and how is it handled?
+  * *Constructors cannot be tested.*
+* transfer()
+  * *Cannot be tested as Account is abstract and cannot be directly instantiated, and subclass SavingsAccount does
+    not override method.*
